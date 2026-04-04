@@ -479,47 +479,13 @@
             background: var(--steel-light);
             border: 1px solid var(--steel-mid);
             overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
 
-        .about-visual-inner {
-            text-align: center;
-            padding: 2rem;
-        }
-
-        .about-visual .spring-art {
-            width: 180px;
-            height: 180px;
-            margin: 0 auto 1.5rem;
-            position: relative;
-        }
-
-        .spring-coil {
-            position: absolute;
-            border: 2px solid var(--copper);
-            border-radius: 50%;
-            opacity: 0.6;
-            animation: coilPulse 4s ease-in-out infinite;
-        }
-
-        .spring-coil:nth-child(1) { width: 180px; height: 180px; top: 0; left: 0; animation-delay: 0s; }
-        .spring-coil:nth-child(2) { width: 140px; height: 140px; top: 20px; left: 20px; animation-delay: 0.5s; }
-        .spring-coil:nth-child(3) { width: 100px; height: 100px; top: 40px; left: 40px; animation-delay: 1s; }
-        .spring-coil:nth-child(4) { width: 60px; height: 60px; top: 60px; left: 60px; animation-delay: 1.5s; }
-        .spring-coil:nth-child(5) { width: 20px; height: 20px; top: 80px; left: 80px; animation-delay: 2s; background: var(--copper); opacity: 0.8; }
-
-        @keyframes coilPulse {
-            0%, 100% { opacity: 0.3; transform: scale(1); }
-            50% { opacity: 0.7; transform: scale(1.05); }
-        }
-
-        .about-visual-label {
-            font-family: var(--font-display);
-            font-size: 1.2rem;
-            color: var(--copper-light);
-            font-style: italic;
+        .about-visual img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
         }
 
         .about-text h3 {
@@ -1113,16 +1079,7 @@
     <section class="about" id="about">
         <div class="about-inner">
             <div class="about-visual reveal">
-                <div class="about-visual-inner">
-                    <div class="spring-art">
-                        <div class="spring-coil"></div>
-                        <div class="spring-coil"></div>
-                        <div class="spring-coil"></div>
-                        <div class="spring-coil"></div>
-                        <div class="spring-coil"></div>
-                    </div>
-                    <div class="about-visual-label">Engineering Excellence</div>
-                </div>
+                <img src="spring-factory.jpg" alt="Precision spring coils - Gibbs Exim manufacturing" loading="lazy">
             </div>
             <div class="about-text">
                 <span class="section-label">About Gibbs Exim</span>

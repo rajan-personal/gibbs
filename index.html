@@ -1,0 +1,1526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gibbs Exim | Precision Spring Manufacturing</title>
+    <meta name="description" content="Gibbs Exim - Leading manufacturer and exporter of precision springs. Compression, torsion, extension springs for automotive, industrial, and agricultural applications.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --steel: #1a1d23;
+            --steel-light: #252830;
+            --steel-mid: #2f333d;
+            --graphite: #0e1015;
+            --copper: #c47a2a;
+            --copper-light: #d4943e;
+            --copper-glow: rgba(196, 122, 42, 0.15);
+            --brass: #b8964e;
+            --cream: #e8e0d4;
+            --text: #c8c5be;
+            --text-dim: #7a7770;
+            --white: #f0ece4;
+            --font-display: 'Instrument Serif', Georgia, serif;
+            --font-body: 'DM Sans', system-ui, sans-serif;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--graphite);
+            color: var(--text);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* === NOISE TEXTURE OVERLAY === */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        /* === SELECTION === */
+        ::selection {
+            background: var(--copper);
+            color: var(--graphite);
+        }
+
+        /* === SCROLLBAR === */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: var(--graphite); }
+        ::-webkit-scrollbar-thumb { background: var(--steel-mid); border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--copper); }
+
+        /* === NAVIGATION === */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 1.25rem 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        nav.scrolled {
+            background: rgba(14, 16, 21, 0.92);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(196, 122, 42, 0.1);
+            padding: 0.9rem 3rem;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+        }
+
+        .nav-logo-icon {
+            width: 40px;
+            height: 40px;
+            border: 2px solid var(--copper);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .nav-logo-icon::after {
+            content: '';
+            width: 18px;
+            height: 18px;
+            border: 2px solid var(--copper-light);
+            border-radius: 50%;
+        }
+
+        .nav-logo-text {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            color: var(--white);
+            letter-spacing: 0.02em;
+        }
+
+        .nav-logo-text span {
+            color: var(--copper);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-dim);
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--copper);
+            transition: width 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .nav-links a:hover { color: var(--white); }
+        .nav-links a:hover::after { width: 100%; }
+
+        .nav-cta {
+            padding: 0.6rem 1.5rem;
+            background: transparent;
+            border: 1px solid var(--copper);
+            color: var(--copper) !important;
+            border-radius: 2px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .nav-cta:hover {
+            background: var(--copper) !important;
+            color: var(--graphite) !important;
+        }
+
+        .nav-cta::after { display: none !important; }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 4px;
+        }
+
+        .hamburger span {
+            width: 24px;
+            height: 2px;
+            background: var(--white);
+            transition: all 0.3s;
+        }
+
+        /* === HERO === */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 80% 60% at 70% 40%, rgba(196, 122, 42, 0.08), transparent),
+                radial-gradient(ellipse 60% 80% at 20% 80%, rgba(47, 51, 61, 0.5), transparent),
+                linear-gradient(160deg, var(--graphite) 0%, var(--steel) 50%, var(--graphite) 100%);
+        }
+
+        /* Decorative spring coil SVG in hero */
+        .hero-spring {
+            position: absolute;
+            right: -5%;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 55%;
+            max-width: 700px;
+            opacity: 0.06;
+            animation: springFloat 8s ease-in-out infinite;
+        }
+
+        @keyframes springFloat {
+            0%, 100% { transform: translateY(-50%) rotate(0deg); }
+            50% { transform: translateY(-52%) rotate(2deg); }
+        }
+
+        /* Grid lines */
+        .hero-grid {
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(196, 122, 42, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(196, 122, 42, 0.03) 1px, transparent 1px);
+            background-size: 80px 80px;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            padding: 0 3rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+            padding-top: 6rem;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.4rem 1rem;
+            border: 1px solid rgba(196, 122, 42, 0.3);
+            border-radius: 2px;
+            font-size: 0.75rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--copper-light);
+            margin-bottom: 2rem;
+            animation: fadeSlideUp 0.8s ease-out both;
+        }
+
+        .hero-badge::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            background: var(--copper);
+            border-radius: 50%;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+
+        .hero h1 {
+            font-family: var(--font-display);
+            font-size: clamp(3.5rem, 8vw, 7.5rem);
+            color: var(--white);
+            line-height: 0.95;
+            margin-bottom: 1.5rem;
+            animation: fadeSlideUp 0.8s ease-out 0.15s both;
+        }
+
+        .hero h1 em {
+            color: var(--copper);
+            font-style: italic;
+        }
+
+        .hero-sub {
+            font-size: clamp(1rem, 1.5vw, 1.2rem);
+            color: var(--text-dim);
+            max-width: 520px;
+            line-height: 1.7;
+            font-weight: 300;
+            margin-bottom: 2.5rem;
+            animation: fadeSlideUp 0.8s ease-out 0.3s both;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            animation: fadeSlideUp 0.8s ease-out 0.45s both;
+        }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 1rem 2rem;
+            background: var(--copper);
+            color: var(--graphite);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.85rem;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            border: none;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.6s;
+        }
+
+        .btn-primary:hover::before { transform: translateX(100%); }
+        .btn-primary:hover { background: var(--copper-light); transform: translateY(-2px); box-shadow: 0 8px 30px rgba(196, 122, 42, 0.3); }
+
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 2rem;
+            background: transparent;
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.85rem;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            border: 1px solid var(--steel-mid);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--copper);
+            color: var(--copper-light);
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 3rem;
+            margin-top: 5rem;
+            padding-top: 3rem;
+            border-top: 1px solid var(--steel-mid);
+            animation: fadeSlideUp 0.8s ease-out 0.6s both;
+        }
+
+        .hero-stat h3 {
+            font-family: var(--font-display);
+            font-size: 2.5rem;
+            color: var(--copper);
+        }
+
+        .hero-stat h3 span {
+            font-family: var(--font-body);
+            font-size: 1.2rem;
+            color: var(--copper-light);
+        }
+
+        .hero-stat p {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-dim);
+            margin-top: 0.3rem;
+        }
+
+        @keyframes fadeSlideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* === SECTION COMMONS === */
+        section {
+            padding: 7rem 3rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 0.75rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--copper);
+            margin-bottom: 1.5rem;
+            font-weight: 500;
+        }
+
+        .section-label::before {
+            content: '';
+            width: 40px;
+            height: 1px;
+            background: var(--copper);
+        }
+
+        .section-title {
+            font-family: var(--font-display);
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            color: var(--white);
+            line-height: 1.05;
+            margin-bottom: 1.25rem;
+        }
+
+        .section-title em {
+            color: var(--copper);
+            font-style: italic;
+        }
+
+        .section-desc {
+            font-size: 1.05rem;
+            color: var(--text-dim);
+            max-width: 550px;
+            line-height: 1.7;
+            font-weight: 300;
+        }
+
+        /* === DIVIDER === */
+        .divider {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 3rem;
+        }
+
+        .divider-line {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--steel-mid), transparent);
+        }
+
+        /* === ABOUT === */
+        .about {
+            background: var(--steel);
+            max-width: 100%;
+            position: relative;
+        }
+
+        .about::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 40%;
+            height: 100%;
+            background: radial-gradient(ellipse at right, var(--copper-glow), transparent 70%);
+            pointer-events: none;
+        }
+
+        .about-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5rem;
+            align-items: center;
+        }
+
+        .about-visual {
+            position: relative;
+            aspect-ratio: 4/3;
+            background: var(--steel-light);
+            border: 1px solid var(--steel-mid);
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .about-visual-inner {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .about-visual .spring-art {
+            width: 180px;
+            height: 180px;
+            margin: 0 auto 1.5rem;
+            position: relative;
+        }
+
+        .spring-coil {
+            position: absolute;
+            border: 2px solid var(--copper);
+            border-radius: 50%;
+            opacity: 0.6;
+            animation: coilPulse 4s ease-in-out infinite;
+        }
+
+        .spring-coil:nth-child(1) { width: 180px; height: 180px; top: 0; left: 0; animation-delay: 0s; }
+        .spring-coil:nth-child(2) { width: 140px; height: 140px; top: 20px; left: 20px; animation-delay: 0.5s; }
+        .spring-coil:nth-child(3) { width: 100px; height: 100px; top: 40px; left: 40px; animation-delay: 1s; }
+        .spring-coil:nth-child(4) { width: 60px; height: 60px; top: 60px; left: 60px; animation-delay: 1.5s; }
+        .spring-coil:nth-child(5) { width: 20px; height: 20px; top: 80px; left: 80px; animation-delay: 2s; background: var(--copper); opacity: 0.8; }
+
+        @keyframes coilPulse {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.05); }
+        }
+
+        .about-visual-label {
+            font-family: var(--font-display);
+            font-size: 1.2rem;
+            color: var(--copper-light);
+            font-style: italic;
+        }
+
+        .about-text h3 {
+            font-family: var(--font-display);
+            font-size: 1.8rem;
+            color: var(--white);
+            margin-bottom: 1.5rem;
+            line-height: 1.3;
+        }
+
+        .about-text p {
+            color: var(--text);
+            line-height: 1.8;
+            margin-bottom: 1.25rem;
+            font-weight: 300;
+        }
+
+        .about-highlights {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.25rem;
+            margin-top: 2rem;
+        }
+
+        .about-highlight {
+            padding: 1.25rem;
+            border: 1px solid var(--steel-mid);
+            background: rgba(26, 29, 35, 0.5);
+            transition: border-color 0.3s;
+        }
+
+        .about-highlight:hover { border-color: var(--copper); }
+
+        .about-highlight h4 {
+            font-family: var(--font-display);
+            font-size: 1.6rem;
+            color: var(--copper);
+        }
+
+        .about-highlight p {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-dim);
+            margin-bottom: 0;
+        }
+
+        /* === PRODUCTS === */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            margin-top: 3.5rem;
+        }
+
+        .product-card {
+            background: var(--steel);
+            border: 1px solid var(--steel-mid);
+            padding: 2.5rem;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+            cursor: pointer;
+            group: true;
+        }
+
+        .product-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--copper);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .product-card:hover::before { transform: scaleX(1); }
+        .product-card:hover { transform: translateY(-4px); border-color: rgba(196, 122, 42, 0.2); box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+
+        .product-icon {
+            width: 56px;
+            height: 56px;
+            border: 1px solid var(--steel-mid);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.75rem;
+            transition: border-color 0.3s;
+        }
+
+        .product-card:hover .product-icon { border-color: var(--copper); }
+
+        .product-icon svg {
+            width: 28px;
+            height: 28px;
+            stroke: var(--copper);
+            fill: none;
+            stroke-width: 1.5;
+        }
+
+        .product-card h3 {
+            font-family: var(--font-display);
+            font-size: 1.6rem;
+            color: var(--white);
+            margin-bottom: 0.75rem;
+        }
+
+        .product-card p {
+            font-size: 0.92rem;
+            color: var(--text-dim);
+            line-height: 1.6;
+            font-weight: 300;
+            margin-bottom: 1.5rem;
+        }
+
+        .product-card .learn-more {
+            font-size: 0.8rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--copper);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 500;
+            transition: gap 0.3s;
+        }
+
+        .product-card:hover .learn-more { gap: 0.8rem; }
+
+        .product-card .learn-more svg {
+            width: 14px;
+            height: 14px;
+            stroke: var(--copper);
+            fill: none;
+            stroke-width: 2;
+        }
+
+        /* === CAPABILITIES === */
+        .capabilities {
+            background: var(--steel);
+            max-width: 100%;
+        }
+
+        .capabilities-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .capabilities-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 4rem;
+        }
+
+        .capabilities-list {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0;
+        }
+
+        .capability {
+            padding: 2.5rem;
+            border: 1px solid var(--steel-mid);
+            margin: -0.5px;
+            transition: all 0.4s;
+            position: relative;
+        }
+
+        .capability::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 2.5rem;
+            right: 2.5rem;
+            height: 1px;
+            background: var(--copper);
+            transform: scaleX(0);
+            transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .capability:hover { background: rgba(196, 122, 42, 0.03); }
+        .capability:hover::after { transform: scaleX(1); }
+
+        .capability-number {
+            font-family: var(--font-display);
+            font-size: 2.5rem;
+            color: rgba(196, 122, 42, 0.2);
+            margin-bottom: 1.5rem;
+        }
+
+        .capability h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--white);
+            margin-bottom: 0.75rem;
+            letter-spacing: 0.02em;
+        }
+
+        .capability p {
+            font-size: 0.88rem;
+            color: var(--text-dim);
+            line-height: 1.6;
+            font-weight: 300;
+        }
+
+        /* === INDUSTRIES === */
+        .industries-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-top: 3.5rem;
+        }
+
+        .industry-card {
+            padding: 3rem 2.5rem;
+            border: 1px solid var(--steel-mid);
+            background: linear-gradient(160deg, var(--steel), var(--steel-light));
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s;
+        }
+
+        .industry-card::before {
+            content: '';
+            position: absolute;
+            top: -80px;
+            right: -80px;
+            width: 200px;
+            height: 200px;
+            border: 1px solid rgba(196, 122, 42, 0.07);
+            border-radius: 50%;
+            transition: all 0.5s;
+        }
+
+        .industry-card:hover::before {
+            border-color: rgba(196, 122, 42, 0.15);
+            transform: scale(1.2);
+        }
+
+        .industry-card:hover { border-color: rgba(196, 122, 42, 0.2); }
+
+        .industry-icon {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            display: block;
+        }
+
+        .industry-card h3 {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            color: var(--white);
+            margin-bottom: 0.75rem;
+        }
+
+        .industry-card p {
+            font-size: 0.9rem;
+            color: var(--text-dim);
+            line-height: 1.6;
+            font-weight: 300;
+        }
+
+        /* === CERTIFICATIONS / TRUST === */
+        .trust {
+            text-align: center;
+        }
+
+        .trust-badges {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-top: 3.5rem;
+            flex-wrap: wrap;
+        }
+
+        .trust-badge {
+            width: 160px;
+            padding: 2rem 1.5rem;
+            border: 1px solid var(--steel-mid);
+            background: var(--steel);
+            transition: all 0.4s;
+            text-align: center;
+        }
+
+        .trust-badge:hover {
+            border-color: var(--copper);
+            transform: translateY(-4px);
+        }
+
+        .trust-badge-icon {
+            width: 48px;
+            height: 48px;
+            margin: 0 auto 1rem;
+            border: 2px solid var(--copper);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--copper);
+            letter-spacing: 0.05em;
+        }
+
+        .trust-badge h4 {
+            font-size: 0.75rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--white);
+            margin-bottom: 0.3rem;
+        }
+
+        .trust-badge p {
+            font-size: 0.75rem;
+            color: var(--text-dim);
+        }
+
+        /* === CTA SECTION === */
+        .cta-section {
+            background: var(--steel);
+            max-width: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 80% 60% at 50% 50%, var(--copper-glow), transparent);
+            pointer-events: none;
+        }
+
+        .cta-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-inner .section-label { justify-content: center; }
+
+        .cta-inner .section-title {
+            max-width: 700px;
+            margin: 0 auto 1.5rem;
+        }
+
+        .cta-inner .section-desc {
+            max-width: 500px;
+            margin: 0 auto 2.5rem;
+        }
+
+        .cta-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        /* === FOOTER === */
+        footer {
+            background: var(--graphite);
+            border-top: 1px solid var(--steel-mid);
+            padding: 4rem 3rem 2rem;
+        }
+
+        .footer-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .footer-top {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 3rem;
+            padding-bottom: 3rem;
+            border-bottom: 1px solid var(--steel-mid);
+        }
+
+        .footer-brand .nav-logo { margin-bottom: 1.25rem; }
+
+        .footer-brand p {
+            font-size: 0.9rem;
+            color: var(--text-dim);
+            line-height: 1.7;
+            max-width: 320px;
+            font-weight: 300;
+        }
+
+        .footer-col h4 {
+            font-size: 0.75rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--white);
+            margin-bottom: 1.25rem;
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col li { margin-bottom: 0.6rem; }
+
+        .footer-col a {
+            font-size: 0.88rem;
+            color: var(--text-dim);
+            text-decoration: none;
+            transition: color 0.3s;
+            font-weight: 300;
+        }
+
+        .footer-col a:hover { color: var(--copper-light); }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 2rem;
+        }
+
+        .footer-bottom p {
+            font-size: 0.8rem;
+            color: var(--text-dim);
+        }
+
+        .footer-bottom-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .footer-bottom-links a {
+            font-size: 0.8rem;
+            color: var(--text-dim);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-bottom-links a:hover { color: var(--copper-light); }
+
+        /* === SCROLL REVEAL === */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal-delay-1 { transition-delay: 0.1s; }
+        .reveal-delay-2 { transition-delay: 0.2s; }
+        .reveal-delay-3 { transition-delay: 0.3s; }
+
+        /* === RESPONSIVE === */
+        @media (max-width: 1024px) {
+            .products-grid { grid-template-columns: repeat(2, 1fr); }
+            .capabilities-list { grid-template-columns: repeat(2, 1fr); }
+            .hero-stats { gap: 2rem; }
+        }
+
+        @media (max-width: 768px) {
+            nav { padding: 1rem 1.5rem; }
+            nav.scrolled { padding: 0.75rem 1.5rem; }
+
+            .nav-links { display: none; }
+            .hamburger { display: flex; }
+
+            .nav-links.open {
+                display: flex;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: rgba(14, 16, 21, 0.97);
+                backdrop-filter: blur(20px);
+                padding: 2rem 1.5rem;
+                gap: 1.25rem;
+                border-bottom: 1px solid var(--steel-mid);
+            }
+
+            .hero-content { padding: 0 1.5rem; padding-top: 5rem; }
+            section { padding: 4rem 1.5rem; }
+            .about { padding: 4rem 1.5rem; }
+            .capabilities { padding: 4rem 1.5rem; }
+            .cta-section { padding: 4rem 1.5rem; }
+
+            .about-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+            .products-grid { grid-template-columns: 1fr 1fr; }
+            .industries-grid { grid-template-columns: 1fr; }
+            .capabilities-list { grid-template-columns: 1fr; }
+            .footer-top { grid-template-columns: 1fr 1fr; gap: 2rem; }
+
+            .hero-stats { flex-direction: column; gap: 1.5rem; }
+            .hero-spring { display: none; }
+
+            .trust-badges { gap: 1rem; }
+            .trust-badge { width: 140px; padding: 1.5rem 1rem; }
+            .capabilities-header { flex-direction: column; align-items: flex-start; gap: 1.5rem; }
+            .cta-actions { flex-direction: column; align-items: center; }
+        }
+
+        @media (max-width: 480px) {
+            .products-grid { grid-template-columns: 1fr; }
+            .footer-top { grid-template-columns: 1fr; }
+            .footer-bottom { flex-direction: column; gap: 1rem; text-align: center; }
+            .about-highlights { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVIGATION -->
+    <nav id="navbar">
+        <a href="#" class="nav-logo">
+            <div class="nav-logo-icon"></div>
+            <div class="nav-logo-text">Gibbs<span>Exim</span></div>
+        </a>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="#about">About</a></li>
+            <li><a href="#products">Products</a></li>
+            <li><a href="#capabilities">Capabilities</a></li>
+            <li><a href="#industries">Industries</a></li>
+            <li><a href="#contact" class="nav-cta">Get a Quote</a></li>
+        </ul>
+        <button class="hamburger" id="hamburger" aria-label="Menu">
+            <span></span><span></span><span></span>
+        </button>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-bg"></div>
+        <div class="hero-grid"></div>
+
+        <!-- Decorative spring SVG -->
+        <svg class="hero-spring" viewBox="0 0 400 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <ellipse cx="200" cy="50" rx="150" ry="30" stroke="currentColor" stroke-width="2" color="#c47a2a"/>
+            <ellipse cx="200" cy="100" rx="150" ry="30" stroke="currentColor" stroke-width="2" color="#c47a2a"/>
+            <ellipse cx="200" cy="150" rx="150" ry="30" stroke="currentColor" stroke-width="2" color="#c47a2a"/>
+            <ellipse cx="200" cy="200" rx="150" ry="30" stroke="currentColor" stroke-width="2" color="#c47a2a"/>
+            <ellipse cx="200" cy="250" rx="150" ry="30" stroke="currentColor" stroke-width="2" color="#c47a2a"/>
+            <ellipse cx="200" cy="300" rx="150" ry="30" stroke="currentColor" stroke-width="2" color="#c47a2a"/>
+            <ellipse cx="200" cy="350" rx="150" ry="30" stroke="currentColor" stroke-width="2" color="#c47a2a"/>
+            <ellipse cx="200" cy="400" rx="150" ry="30" stroke="currentColor" stroke-width="2" color="#c47a2a"/>
+            <ellipse cx="200" cy="450" rx="150" ry="30" stroke="currentColor" stroke-width="2" color="#c47a2a"/>
+            <line x1="50" y1="50" x2="50" y2="450" stroke="currentColor" stroke-width="1.5" color="#c47a2a"/>
+            <line x1="350" y1="50" x2="350" y2="450" stroke="currentColor" stroke-width="1.5" color="#c47a2a"/>
+        </svg>
+
+        <div class="hero-content">
+            <div class="hero-badge">Precision Engineered Since Establishment</div>
+            <h1>Springs Built<br>for <em>Precision</em></h1>
+            <p class="hero-sub">Manufacturer and global exporter of precision automotive components — springs, cam shaft parts, sheet metal, rubber bushes, and complete repair kits.</p>
+            <div class="hero-actions">
+                <a href="#contact" class="btn-primary">
+                    Request Quote
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </a>
+                <a href="#products" class="btn-secondary">Explore Products</a>
+            </div>
+            <div class="hero-stats">
+                <div class="hero-stat">
+                    <h3><span data-count="10">0</span>M<span>+</span></h3>
+                    <p>Springs Produced Annually</p>
+                </div>
+                <div class="hero-stat">
+                    <h3><span data-count="15">0</span><span>+</span></h3>
+                    <p>Countries Exported To</p>
+                </div>
+                <div class="hero-stat">
+                    <h3><span data-count="200">0</span><span>+</span></h3>
+                    <p>Active Clients</p>
+                </div>
+                <div class="hero-stat">
+                    <h3>99.7<span>%</span></h3>
+                    <p>Quality Compliance</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section class="about" id="about">
+        <div class="about-inner">
+            <div class="about-visual reveal">
+                <div class="about-visual-inner">
+                    <div class="spring-art">
+                        <div class="spring-coil"></div>
+                        <div class="spring-coil"></div>
+                        <div class="spring-coil"></div>
+                        <div class="spring-coil"></div>
+                        <div class="spring-coil"></div>
+                    </div>
+                    <div class="about-visual-label">Engineering Excellence</div>
+                </div>
+            </div>
+            <div class="about-text">
+                <span class="section-label">About Gibbs Exim</span>
+                <h3 class="reveal">A Legacy of Precision Manufacturing &amp; Global Export</h3>
+                <p class="reveal reveal-delay-1">Gibbs Exim is a leading spring manufacturing and export company dedicated to delivering precision-engineered springs that meet the most demanding industrial standards. Our state-of-the-art facility combines advanced CNC technology with decades of metallurgical expertise.</p>
+                <p class="reveal reveal-delay-2">From rapid prototyping to high-volume production, we partner with OEMs and industrial leaders across the globe, providing springs that perform reliably in the most critical applications.</p>
+                <div class="about-highlights reveal reveal-delay-3">
+                    <div class="about-highlight">
+                        <h4>CNC</h4>
+                        <p>Precision Forming</p>
+                    </div>
+                    <div class="about-highlight">
+                        <h4>24/7</h4>
+                        <p>Production Capability</p>
+                    </div>
+                    <div class="about-highlight">
+                        <h4>Global</h4>
+                        <p>Export Network</p>
+                    </div>
+                    <div class="about-highlight">
+                        <h4>R&amp;D</h4>
+                        <p>In-house Lab</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PRODUCTS -->
+    <section id="products">
+        <span class="section-label reveal">Our Products</span>
+        <h2 class="section-title reveal">Precision <em>Components</em> for Every Application</h2>
+        <p class="section-desc reveal">High-quality automotive and industrial components manufactured to exacting specifications and exported worldwide.</p>
+
+        <div class="products-grid">
+            <div class="product-card reveal">
+                <div class="product-icon">
+                    <svg viewBox="0 0 28 28"><path d="M4 14h20M4 14l3-3M4 14l3 3M24 14l-3-3M24 14l-3 3M9 11c0 2 5 2 5 0s5-2 5 0M9 17c0-2 5-2 5 0s5 2 5 0"/></svg>
+                </div>
+                <h3>Return Springs</h3>
+                <p>Precision-engineered return springs for brake systems and mechanical assemblies, ensuring consistent restoring force and reliable performance across millions of cycles.</p>
+                <a href="#contact" class="learn-more">
+                    Learn More
+                    <svg viewBox="0 0 14 14"><path d="M1 7h12M8 2l5 5-5 5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </a>
+            </div>
+
+            <div class="product-card reveal reveal-delay-1">
+                <div class="product-icon">
+                    <svg viewBox="0 0 28 28"><path d="M14 4v20M8 7c0 2 6 2 6 0s6-2 6 0M8 12c0 2 6 2 6 0s6-2 6 0M8 17c0 2 6 2 6 0s6-2 6 0M8 22c0 2 6 2 6 0s6-2 6 0"/></svg>
+                </div>
+                <h3>Brake Shoe Springs</h3>
+                <p>Heavy-duty brake shoe springs built for automotive and commercial vehicle braking systems. Engineered for high heat resistance, fatigue strength, and consistent tension under extreme conditions.</p>
+                <a href="#contact" class="learn-more">
+                    Learn More
+                    <svg viewBox="0 0 14 14"><path d="M1 7h12M8 2l5 5-5 5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </a>
+            </div>
+
+            <div class="product-card reveal reveal-delay-2">
+                <div class="product-icon">
+                    <svg viewBox="0 0 28 28"><path d="M7 14a7 7 0 0114 0M14 7v14M10 10l8 8M18 10l-8 8"/></svg>
+                </div>
+                <h3>Slack Adjuster Springs</h3>
+                <p>Reliable slack adjuster springs for automatic and manual brake adjustment mechanisms. Manufactured to tight tolerances for optimal brake clearance control in heavy vehicles.</p>
+                <a href="#contact" class="learn-more">
+                    Learn More
+                    <svg viewBox="0 0 14 14"><path d="M1 7h12M8 2l5 5-5 5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </a>
+            </div>
+
+            <div class="product-card reveal reveal-delay-3">
+                <div class="product-icon">
+                    <svg viewBox="0 0 28 28"><circle cx="14" cy="14" r="9"/><path d="M14 5v4M14 19v4M5 14h4M19 14h4"/></svg>
+                </div>
+                <h3>Cam Shaft Components</h3>
+                <p>Precision-machined cam shaft components for engine valve train systems. Manufactured from high-grade alloy steels with exacting surface finish and dimensional accuracy.</p>
+                <a href="#contact" class="learn-more">
+                    Learn More
+                    <svg viewBox="0 0 14 14"><path d="M1 7h12M8 2l5 5-5 5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </a>
+            </div>
+
+            <div class="product-card reveal">
+                <div class="product-icon">
+                    <svg viewBox="0 0 28 28"><rect x="4" y="6" width="20" height="16" rx="1"/><path d="M4 12h20M12 6v16"/></svg>
+                </div>
+                <h3>Sheet Metal Components</h3>
+                <p>Custom sheet metal components produced through precision stamping, forming, and finishing processes. Suitable for automotive, industrial, and electrical enclosure applications.</p>
+                <a href="#contact" class="learn-more">
+                    Learn More
+                    <svg viewBox="0 0 14 14"><path d="M1 7h12M8 2l5 5-5 5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </a>
+            </div>
+
+            <div class="product-card reveal reveal-delay-1">
+                <div class="product-icon">
+                    <svg viewBox="0 0 28 28"><path d="M7 14a7 7 0 0114 0a7 7 0 01-14 0M7 7a7 7 0 0114 0M7 21a7 7 0 0014 0"/></svg>
+                </div>
+                <h3>Excel Components</h3>
+                <p>High-performance excel components engineered for durability and precision fitment. Quality-tested for reliable operation across diverse mechanical and automotive systems.</p>
+                <a href="#contact" class="learn-more">
+                    Learn More
+                    <svg viewBox="0 0 14 14"><path d="M1 7h12M8 2l5 5-5 5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </a>
+            </div>
+
+            <div class="product-card reveal reveal-delay-2">
+                <div class="product-icon">
+                    <svg viewBox="0 0 28 28"><circle cx="14" cy="14" r="8"/><circle cx="14" cy="14" r="4"/><path d="M14 6v-2M14 24v-2M6 14h-2M24 14h-2"/></svg>
+                </div>
+                <h3>Rubber Bushes</h3>
+                <p>Vibration-dampening rubber bushes for suspension, engine mounts, and chassis applications. Engineered for superior noise reduction, longevity, and consistent performance.</p>
+                <a href="#contact" class="learn-more">
+                    Learn More
+                    <svg viewBox="0 0 14 14"><path d="M1 7h12M8 2l5 5-5 5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </a>
+            </div>
+
+            <div class="product-card reveal reveal-delay-3">
+                <div class="product-icon">
+                    <svg viewBox="0 0 28 28"><rect x="4" y="8" width="20" height="12" rx="1"/><path d="M8 8V6a2 2 0 014 0v2M16 8V6a2 2 0 014 0v2M4 14h20"/></svg>
+                </div>
+                <h3>Repair Kits</h3>
+                <p>Complete repair kits bundling springs, bushes, and components for brake and suspension overhaul. Packaged for convenience with all parts matched to OEM specifications.</p>
+                <a href="#contact" class="learn-more">
+                    Learn More
+                    <svg viewBox="0 0 14 14"><path d="M1 7h12M8 2l5 5-5 5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <div class="divider"><div class="divider-line"></div></div>
+
+    <!-- CAPABILITIES -->
+    <section class="capabilities" id="capabilities">
+        <div class="capabilities-inner">
+            <div class="capabilities-header">
+                <div>
+                    <span class="section-label reveal">Why Gibbs Exim</span>
+                    <h2 class="section-title reveal">Manufacturing<br><em>Capabilities</em></h2>
+                </div>
+                <p class="section-desc reveal">World-class infrastructure and processes delivering components that meet the tightest tolerances.</p>
+            </div>
+            <div class="capabilities-list">
+                <div class="capability reveal">
+                    <div class="capability-number">01</div>
+                    <h3>Advanced CNC Coiling</h3>
+                    <p>Multi-axis CNC spring coilers from leading global manufacturers enabling wire diameters from 0.1mm to 16mm with micron-level precision.</p>
+                </div>
+                <div class="capability reveal reveal-delay-1">
+                    <div class="capability-number">02</div>
+                    <h3>Heat Treatment</h3>
+                    <p>In-house stress-relief and hardening furnaces with precise temperature control for optimal spring performance and fatigue life.</p>
+                </div>
+                <div class="capability reveal reveal-delay-2">
+                    <div class="capability-number">03</div>
+                    <h3>Surface Finishing</h3>
+                    <p>Comprehensive coating capabilities including zinc plating, powder coating, phosphating, and specialty coatings for corrosion resistance.</p>
+                </div>
+                <div class="capability reveal reveal-delay-3">
+                    <div class="capability-number">04</div>
+                    <h3>Quality Assurance</h3>
+                    <p>100% load testing, dimensional verification, and statistical process control. Full traceability from raw material to finished product.</p>
+                </div>
+                <div class="capability reveal">
+                    <div class="capability-number">05</div>
+                    <h3>Rapid Prototyping</h3>
+                    <p>Prototype-to-production in days, not weeks. Dedicated prototype line for fast iteration and design validation before volume commitment.</p>
+                </div>
+                <div class="capability reveal reveal-delay-1">
+                    <div class="capability-number">06</div>
+                    <h3>Material Expertise</h3>
+                    <p>Stainless steel, music wire, chrome vanadium, Inconel, phosphor bronze, and specialty alloys sourced from certified mills worldwide.</p>
+                </div>
+                <div class="capability reveal reveal-delay-2">
+                    <div class="capability-number">07</div>
+                    <h3>Volume Flexibility</h3>
+                    <p>From single prototypes to millions of pieces per month. Scalable production with consistent quality across all batch sizes.</p>
+                </div>
+                <div class="capability reveal reveal-delay-3">
+                    <div class="capability-number">08</div>
+                    <h3>Global Logistics</h3>
+                    <p>Established export infrastructure with experience in international shipping, customs documentation, and on-time delivery to 15+ countries.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- INDUSTRIES -->
+    <section id="industries">
+        <span class="section-label reveal">Industries We Serve</span>
+        <h2 class="section-title reveal">Trusted Across <em>Sectors</em></h2>
+        <p class="section-desc reveal">From under the hood to underground, our springs perform in the world's most demanding environments.</p>
+
+        <div class="industries-grid">
+            <div class="industry-card reveal">
+                <span class="industry-icon">&#9881;</span>
+                <h3>Automotive</h3>
+                <p>Suspension springs, valve springs, clutch springs, and seat mechanism springs for passenger vehicles and commercial fleets. OEM and Tier-1 supplier qualified.</p>
+            </div>
+            <div class="industry-card reveal reveal-delay-1">
+                <span class="industry-icon">&#9879;</span>
+                <h3>Agriculture</h3>
+                <p>Heavy-duty springs for tillage equipment, harvesting machinery, seed drills, and implement systems designed for extreme field conditions.</p>
+            </div>
+            <div class="industry-card reveal reveal-delay-2">
+                <span class="industry-icon">&#9878;</span>
+                <h3>Industrial & Heavy Equipment</h3>
+                <p>Springs for construction machinery, material handling, mining equipment, and hydraulic systems requiring high load capacity and fatigue resistance.</p>
+            </div>
+            <div class="industry-card reveal">
+                <span class="industry-icon">&#9889;</span>
+                <h3>Electrical & Electronics</h3>
+                <p>Precision micro-springs, contact springs, and battery springs for switches, connectors, and consumer electronics with tight tolerance requirements.</p>
+            </div>
+            <div class="industry-card reveal reveal-delay-1">
+                <span class="industry-icon">&#9874;</span>
+                <h3>Garage Doors & Hardware</h3>
+                <p>Torsion and extension springs for residential and commercial garage door systems. Engineered for 20,000+ cycle life with consistent force delivery.</p>
+            </div>
+            <div class="industry-card reveal reveal-delay-2">
+                <span class="industry-icon">&#9883;</span>
+                <h3>General Engineering</h3>
+                <p>Springs and wire forms for diverse applications including textile machinery, medical devices, defence equipment, and renewable energy systems.</p>
+            </div>
+        </div>
+    </section>
+
+    <div class="divider"><div class="divider-line"></div></div>
+
+    <!-- CERTIFICATIONS -->
+    <section class="trust" id="certifications">
+        <span class="section-label reveal" style="justify-content:center;">Certifications &amp; Standards</span>
+        <h2 class="section-title reveal">Quality You Can <em>Verify</em></h2>
+        <p class="section-desc reveal" style="margin: 0 auto;">Every spring leaves our facility backed by internationally recognized quality management systems.</p>
+
+        <div class="trust-badges">
+            <div class="trust-badge reveal">
+                <div class="trust-badge-icon">ISO</div>
+                <h4>ISO 9001:2015</h4>
+                <p>Quality Management</p>
+            </div>
+            <div class="trust-badge reveal reveal-delay-1">
+                <div class="trust-badge-icon">IATF</div>
+                <h4>IATF 16949</h4>
+                <p>Automotive Quality</p>
+            </div>
+            <div class="trust-badge reveal reveal-delay-2">
+                <div class="trust-badge-icon">ISO</div>
+                <h4>ISO 14001</h4>
+                <p>Environment</p>
+            </div>
+            <div class="trust-badge reveal reveal-delay-3">
+                <div class="trust-badge-icon">ISO</div>
+                <h4>ISO 45001</h4>
+                <p>Health & Safety</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section" id="contact">
+        <div class="cta-inner">
+            <span class="section-label reveal">Start a Conversation</span>
+            <h2 class="section-title reveal">Let's Engineer Your <em>Next Spring</em></h2>
+            <p class="section-desc reveal">Whether you need a custom prototype or a high-volume production run, our engineering team is ready to deliver.</p>
+            <div class="cta-actions reveal">
+                <a href="mailto:sandeepgoelmrt1@gmail.com" class="btn-primary">
+                    Email Us
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </a>
+                <a href="tel:+919219522000" class="btn-secondary">Call Now</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-inner">
+            <div class="footer-top">
+                <div class="footer-brand">
+                    <a href="#" class="nav-logo">
+                        <div class="nav-logo-icon"></div>
+                        <div class="nav-logo-text">Gibbs<span>Exim</span></div>
+                    </a>
+                    <p>Precision automotive component manufacturing and global export. Engineering reliable performance into every part.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Products</h4>
+                    <ul>
+                        <li><a href="#products">Return Springs</a></li>
+                        <li><a href="#products">Brake Shoe Springs</a></li>
+                        <li><a href="#products">Slack Adjuster Springs</a></li>
+                        <li><a href="#products">Cam Shaft Components</a></li>
+                        <li><a href="#products">Sheet Metal Components</a></li>
+                        <li><a href="#products">Rubber Bushes</a></li>
+                        <li><a href="#products">Repair Kits</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="#about">About Us</a></li>
+                        <li><a href="#capabilities">Capabilities</a></li>
+                        <li><a href="#industries">Industries</a></li>
+                        <li><a href="#certifications">Certifications</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li><a href="mailto:sandeepgoelmrt1@gmail.com">sandeepgoelmrt1@gmail.com</a></li>
+                        <li><a href="tel:+917505279767">+91-7505279767 (Govind Goel)</a></li>
+                        <li><a href="tel:+919219522000">+91-9219522000 (Sandeep Goel)</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Gibbs Exim. All rights reserved.</p>
+                <div class="footer-bottom-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Navbar scroll effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            navbar.classList.toggle('scrolled', window.scrollY > 50);
+        });
+
+        // Mobile menu toggle
+        const hamburger = document.getElementById('hamburger');
+        const navLinks = document.getElementById('navLinks');
+        hamburger.addEventListener('click', () => {
+            navLinks.classList.toggle('open');
+        });
+
+        // Close mobile menu on link click
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => navLinks.classList.remove('open'));
+        });
+
+        // Scroll reveal
+        const revealElements = document.querySelectorAll('.reveal');
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    revealObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+        revealElements.forEach(el => revealObserver.observe(el));
+
+        // Counter animation
+        const counters = document.querySelectorAll('[data-count]');
+        const counterObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const el = entry.target;
+                    const target = parseInt(el.dataset.count);
+                    const duration = 2000;
+                    const start = performance.now();
+
+                    function update(now) {
+                        const elapsed = now - start;
+                        const progress = Math.min(elapsed / duration, 1);
+                        const eased = 1 - Math.pow(1 - progress, 3);
+                        el.textContent = Math.round(target * eased);
+                        if (progress < 1) requestAnimationFrame(update);
+                    }
+
+                    requestAnimationFrame(update);
+                    counterObserver.unobserve(el);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        counters.forEach(el => counterObserver.observe(el));
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
